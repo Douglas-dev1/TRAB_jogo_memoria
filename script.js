@@ -137,7 +137,9 @@ function comparaCartas() {
         if (pontos == 8) {                                                          /*JOGO COMPLETO*/
             bloqueioClick = true;                                                   /*BLOQUEIA PARA NOVOS CLIQUES*/
             pausarTemporizador();                                                   /*PAUSA A CONTAGEM DO TEMPORIZADOR DE 902*/
+            document.getElementById('mensagem1').style.display = 'none';            /*ESCONDE O CONTADOR DE PONTUAÇÃO*/
             mensagemElement.innerText = 'Ganhou!';                                  /*MOSTRA A MENSAGEM NA TELA*/
+            document.getElementById('mensagem').style.fontSize = '50px'             /*AUMENTO O TAMANHO DA FONTE QUANDO APARECE GANHOU*/
             console.log(endgame)                                                    /*PARA DEBUG, IMPRIME NO CONSOLE*/
         }
     }
@@ -162,6 +164,7 @@ function initTemporizador() {
                 clearInterval(cronometro);                          /*PARA O CRONOMETRO*/
                 bloqueioClick = true;                               /*BLOQUEIA PARA NOVOS CLIQUES*/
                 mensagemElement.innerText = 'Tempo esgotado!';      /*EXIBE A MENSAGEM TEMPO ESGOTADO */
+                document.getElementById('mensagem').style.fontSize = '50px'             /*AUMENTO O TAMANHO DA FONTE QUANDO APARECE TEMPO ESGOTADO*/
             }
         }, 1000);                                                   /*TIMER DE 1 SEGUNDO*/
     }

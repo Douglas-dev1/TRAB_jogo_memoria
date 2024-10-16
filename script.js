@@ -124,11 +124,13 @@ function comparaCartas() {
 
     if (imagemCarta1 === imagemCarta2) {
         /*MANTÉM AS CARTAS*/
-        /*Carta1.innerHTML;         
-        Carta2.innerHTML;*/
+        Carta1.innerHTML;
+        Carta2.innerHTML;
         /*OCULTA AS CARTAS IGUAIS*/
-        Carta1.style.visibility = 'hidden';         /*ESCONDE AS CARTAS*/
+        /*
+        Carta1.style.visibility = 'hidden';         //ESCONDE AS CARTAS
         Carta2.style.visibility = 'hidden';
+        */
         console.log('Cartas iguais!');              /*PARA DEBUG, IMPRIME NO CONSOLE*/
         pontos++;                                   /*CONTA PONTOS*/
         document.getElementById('mensagem1').innerText = `pontos: ${pontos}`;       /*MOSTRA A MENSAGEM COM OS SEGUNDOS FORMATADOPS NA TELA*/

@@ -1,4 +1,4 @@
-const buttonRadon = document.getElementById("randon")               /*ARAMZENA A REFERENCIA DO ELEMENTO BUTTON COM ID RANDON PARA MANIPULAR A MESMA NO JS*/
+/*==================== VARIAVEIS(CONST) ====================*/
 const imagesCards = [
     'assets/card1.jpg',
     'assets/card2.jpg',
@@ -12,46 +12,49 @@ const imagesCards = [
 const container = document.getElementById("cards");                 /*ARAMZENA A REFERENCIA DO ELEMENTO DIV COM ID CARDS PARA MANIPULAR A MESMA NO JS*/
 /*DUPLAICANDO O ARRAY DE IMAGENS*/
 const doubleimageCards = imagesCards.concat(imagesCards);           /*CRIA UM NOVO ARRAY(doubleimageCards) QUE É A COMBINAÇÃO DO ARRAY ORIGINAL(imagesCards.concat) COM O ARRAY QUE É PASSADO COMO PARAMETRO((imagesCards))*/
-
+const mensagemElement = document.getElementById('mensagem');        /*ARAMZENA A REFERENCIA DO ELEMENTO DIV COM ID MENSAGEM PARA MANIPULAR A MESMA NO JS*/
+const mensagemElement1 = document.getElementById('mensagem2');      /*ARAMZENA A REFERENCIA DO ELEMENTO DIV COM ID MENSAGEM1 PARA MANIPULAR A MESMA NO JS*/
+const buttonRadon = document.getElementById("randon")               /*ARAMZENA A REFERENCIA DO ELEMENTO BUTTON COM ID RANDON PARA MANIPULAR A MESMA NO JS*/
+/*==========================================================*/
+/*===================== VARIAVEIS(LET) =====================*/
 let mensagemFinal1 = null;
-
 let Carta1 = null;
 let Carta2 = null;
 let bloqCarta = null;
 let contador = null
 let pontos = null;
 let endgame = null;
-let tempoRestante = 60;
+let tempoRestante = 90;
 let cronometro = null;
-
-const mensagemElement = document.getElementById('mensagem');
-
+/*==========================================================*/
 function delay(ms) {                                                /*FUNÇÃO DE DELAY*/
     return new Promise(resolve => setTimeout(resolve, ms))
 }
+/*==================== INIT ====================*/
 
-distribuiCards();
+distribuiCards();/*INICIA DISTRIBUINDO OS CARDS*/
 
+/*==============================================*/
 
 function distribuiCards(mostrarCartas = false) {
-    container.innerHTML = '';                                           /*PARA LIMPAR O CONTAINER*/
+    container.innerHTML = '';                                               /*PARA LIMPAR O CONTAINER*/
 
-    for (let i = 0; i < 4; i++) {                                       /*CRIANDO E DISTRIBUINDO OS CARDS*/
+    for (let i = 0; i < 4; i++) {                                           /*CRIANDO E DISTRIBUINDO OS CARDS*/
         for (let j = 0; j < 4; j++) {
-            const card = document.createElement('div');                 /*CRIA UM BOTAO E ARAMZENA SUA REFERENCIA EM CONST PARA QUE POSSAMOS MANIPULAR COM JS*/
-            card.className = 'cardStyle';                               /*CRIAMOS UM ID PARA ESSE ELEMENTO*/
+            const card = document.createElement('div');                     /*CRIA UM BOTAO E ARAMZENA SUA REFERENCIA EM CONST PARA QUE POSSAMOS MANIPULAR COM JS*/
+            card.className = 'cardStyle';                                   /*CRIAMOS UM ID PARA ESSE ELEMENTO*/
             card.id = `card${i}${j + 1}`;                                   /*CRIAMOS UM ID UNICO PARA CADA BOTAO*/
 
             /*CRIA O CORPO DO CARD*/
-            const corpoCard = document.createElement('div');            /*CRIA A DIV*/
-            corpoCard.className = 'cCard';                              /*NOMEIA A CLASSE*/
+            const corpoCard = document.createElement('div');                    /*CRIA A DIV*/
+            corpoCard.className = 'cCard';                                      /*NOMEIA A CLASSE*/
             /*CRIA A FRENTE DO CARD E ATRIBUI A IMAGEM*/
-            const frenteCard = document.createElement('div');           /*CRIA DIV*/
-            frenteCard.className = 'fCard'                              /*NOMEIA CLASSE*/
+            const frenteCard = document.createElement('div');                   /*CRIA DIV*/
+            frenteCard.className = 'fCard'                                      /*NOMEIA CLASSE*/
             frenteCard.style.backgroundImage = 'url("assets/versoCard.jpg")';   /*ATRIBUI A IMAGEM DE FUNDO */
             /*CRIA O VERSO DO CARD E ATRIBUI A IMAGEM*/
-            const versoCard = document.createElement('div');            /*CRIA A DIV*/
-            versoCard.className = 'vCard'                               /*NOMEIA A CLASSE*/
+            const versoCard = document.createElement('div');                            /*CRIA A DIV*/
+            versoCard.className = 'vCard'                                               /*NOMEIA A CLASSE*/
             versoCard.style.backgroundImage = `url(${doubleimageCards[i * 4 + j]})`;    /*ATRIBUI A IMAGEM ITERANDO ENTRE OS ITENS DO VETOR E ATRIBUINDO*/
             /*GUARDAMOS FRENTE E VERSO DO CARD NO CORPO DE CAR*/
             corpoCard.appendChild(frenteCard);
@@ -59,16 +62,16 @@ function distribuiCards(mostrarCartas = false) {
             /*GUARDAMOS CORPOCARD EM CARD*/
             card.appendChild(corpoCard);
 
-            if (mostrarCartas) { /*QUANDO TRUE IRA PASSAR POR AQUI E MUDAR A IMAGEM DAS CARTAS*/
-                card.classList.add('card-flipped')
-                console.log('Passou aqui');
+            if (mostrarCartas) { /*QUANDO O PARAMETRO É TRUE IRA PASSAR POR AQUI E MUDAR A IMAGEM DAS CARTAS*/
+                card.classList.add('card-flipped')                              /*ADCIONA O EFEITO DE FLIP E VIRA A CARTA*/
+                console.log('Passou aqui');                                     /*PARA DEBUG, IMPRIME NO CONSOLE*/
             }
 
             card.addEventListener('click', function () {                        /*CRIAMOS O EVENTO CASO HAJA UM CLICK*/
                 if (!bloqCarta && !card.classList.contains('card-flipped')) {   /*CONDIÇÃO PARA BLOQUEAR O CLIQUE EM UMA TERCEIRA CARTA, SE AS DUAS JA ESTIVEREM VIRADAS*/
                     card.classList.add('card-flipped');                         /*ADCIONA OU REMOVE CARD-FLIPPED, SE O ELEMENTO JA TIVER A CLASSE ESSE COMANDO REMOVE E VICE E VERSA*/
-                    verificaCartas(card);
-                    console.log(`Card ${i}${j + 1} clicado!`);                     /*MOSTRA NO CONSOLE QUAL CARD FOI CLICADO*/
+                    verificaCartas(card);                                       /*CHAMA A FUNÇÃO DE VERIFICAÇÃO DA CARTA E COMO PARAMETRO A CARTA ATUAL*/
+                    console.log(`Card ${i}${j + 1} clicado!`);                  /*PARA DEBUG, IMPRIME NO CONSOLE*/
                 }
             });
 
@@ -84,66 +87,85 @@ function embaralhaArray(array) {
     }
 }
 
-buttonRadon.addEventListener("click", async (event) => {            /*EVENTO DE CLIQUE NO BOTÃO EMBARALHAR*/
+/*EVENTO DE CLIQUE NO BOTÃO EMBARALHAR*/
+buttonRadon.addEventListener("click", async (event) => {
     event.preventDefault();
-    pontos = 0;
-    bloqCarta = false;
-    mensagemElement.innerText = 'Iniciado!';
-    embaralhaArray(doubleimageCards);                               /*EMBARALHA OS ELEMENTOS DENTRO DO VETOR*/
-    distribuiCards(true);                                           /*GERA OS CARDS E MOSTRA NA TELA E MOSTRA PARA MEMORIZAÇÃO = TRUE*/
-    await delay(5000);                                             /*AGUARDA 15S SÓ FUNCIONA DENTRO DE FUNÇOES ASSINCRONAS, CORRIGIR ADDEVENTLISTNER("click", async (event))*/
-    distribuiCards(false);                                          /*GERA OS CARDS E MOSTRA NA TELA E ESCONDE POR PADRAO DA REGRA DO CSS*/
-    initTemporizador()
+    pontos = 0;                                                             /*ZERA OS PONTOS AO INICIAR O GAME*/
+    endgame = false;                                                        /*LIBERA O CONTADOR PAR AUMA NOVA CONTAGEM*/
+    tempoRestante = 90;                                                     /*EM CASO DE UM NOVO JOGO RECARREGA O CONTADOR*/
+    bloqCarta = false;                                                      /*EM CASO DE UM NOVO JOGO DESBLOQUEIA AS AÇOES DAS CARTAS */
+    mensagemElement.innerText = 'Iniciado!';                                /*EXIBE A MENSAGEM QUE O JOGO FOI INCIADO*/
+    document.getElementById('mensagem1').innerText = `pontos: ${pontos}`;   /*EXIBE A PONTUAÇÃO*/
+    embaralhaArray(doubleimageCards);                                       /*EMBARALHA OS ELEMENTOS DENTRO DO VETOR*/
+    distribuiCards(true);                                                   /*GERA OS CARDS E MOSTRA NA TELA E MOSTRA PARA MEMORIZAÇÃO = TRUE*/
+    await delay(5000);                                                      /*AGUARDA 15S SÓ FUNCIONA DENTRO DE FUNÇOES ASSINCRONAS, CORRIGIR ADDEVENTLISTNER("click", async (event))*/
+    distribuiCards(false);                                                  /*GERA OS CARDS E MOSTRA NA TELA E ESCONDE POR PADRAO DA REGRA DO CSS*/
+    initTemporizador()                                                      /*INCIA O CONTADOR*/
 });
 
 function verificaCartas(card) {
-    if (!Carta1) {
-        Carta1 = card;
+    if (!Carta1) {                      /*SE NAO HOUVER NNEHUMA CARTA SALVA EM CARTA1*/
+        Carta1 = card;                  /*SALVA O CONTEUDO DE card EM CARD1*/
     }
-    else if (!Carta2) {
-        Carta2 = card;
-        bloqCarta = true;
-        setTimeout(() => { /*MOSTRA AS CARTAS DURANTE 1 SEGUNDO ANTES DE COMPARAR*/
-            comparaCartas()
-        }, 1000)
+    else if (!Carta2) {                 /*SE NAO HOUVER NNEHUMA CARTA SALVA EM CARTA2*/
+        Carta2 = card;                  /*SALVA O CONTEUDO DE card EM CARD2*/
+        bloqCarta = true;               /*TRAVAMENTO PARA NAO CLICAR EMMAIS DE DUAS CARTAS*/
+        /*MOSTRA AS CARTAS DURANTE 1 SEGUNDO ANTES DE COMPARAR*/
+        setTimeout(() => {
+            comparaCartas()             /*CHAMA A FUNÇÃO QEU COMPRARA CARTAS*/
+        }, 1000)                        /*AGUARDA 1 SEC*/
     }
 }
 
 function comparaCartas() {
-    /*ACESSAMOS OS ENDEREÇOS DAS DUAS IMAGENS DAS CARTAS CLICADAS E SALVAMOS EM VARIAVEIS TEMPORARIAS PARA PODERMOS COMPARAR*/ 
-    const imagemCarta1 = Carta1.querySelector('.vCard').style.backgroundImage;
+    /*ACESSAMOS OS ENDEREÇOS DAS DUAS IMAGENS DAS CARTAS CLICADAS E SALVAMOS EM VARIAVEIS TEMPORARIAS PARA PODERMOS COMPARAR*/
+    const imagemCarta1 = Carta1.querySelector('.vCard').style.backgroundImage;  /*SALVA URL DA IMAGEM NA VARIAVEL*/
     const imagemCarta2 = Carta2.querySelector('.vCard').style.backgroundImage;
 
     if (imagemCarta1 === imagemCarta2) {
-        Carta1.innerHTML;
-        Carta2.innerHTML;
-        console.log('Cartas iguais!');
-        pontos++;
-        if(pontos == 8){
-            bloqueioClick = true;                               /*BLOQUEIA PARA NOVOS CLIQUES*/
-            mensagemElement.innerText = 'Ganhou!';
+        /*MANTÉM AS CARTAS*/
+        /*Carta1.innerHTML;         
+        Carta2.innerHTML;*/
+        /*OCULTA AS CARTAS IGUAIS*/
+        Carta1.style.visibility = 'hidden';         /*ESCONDE AS CARTAS*/
+        Carta2.style.visibility = 'hidden';
+        console.log('Cartas iguais!');              /*PARA DEBUG, IMPRIME NO CONSOLE*/
+        pontos++;                                   /*CONTA PONTOS*/
+        document.getElementById('mensagem1').innerText = `pontos: ${pontos}`;       /*MOSTRA A MENSAGEM COM OS SEGUNDOS FORMATADOPS NA TELA*/
+        if (pontos == 8) {                                                          /*JOGO COMPLETO*/
+            bloqueioClick = true;                                                   /*BLOQUEIA PARA NOVOS CLIQUES*/
+            pausarTemporizador();                                                   /*PAUSA A CONTAGEM DO TEMPORIZADOR DE 902*/
+            mensagemElement.innerText = 'Ganhou!';                                  /*MOSTRA A MENSAGEM NA TELA*/
+            console.log(endgame)                                                    /*PARA DEBUG, IMPRIME NO CONSOLE*/
         }
     }
     else {
-        Carta1.classList.remove('card-flipped');
+        Carta1.classList.remove('card-flipped');                                    /*REMOVE O EFEITO DE FLIP E DESVIRA A CARTA*/
         Carta2.classList.remove('card-flipped');
         console.log('Cartas Diferentes!');
     }
-    Carta1 = null
+    Carta1 = null                                                                   /*RESETA AS VARIAVEIS*/
     Carta2 = null
     bloqCarta = null
 }
 
-function initTemporizador(){
-    cronometro = setInterval(() => {
-        tempoRestante--;                                    /*DECREMENTA DOS 60S*/
-        document.getElementById('temp').innerText = `Tempo restante: ${tempoRestante}s`; /*PARA MOSTRARMOS O TEMPO*/
+function initTemporizador() {
+    if (endgame === false) {                                    /*TRAVA O CONTADOR */
+        cronometro = setInterval(() => {                        /*TIMER*/
+            tempoRestante--;                                    /*DECREMENTA DOS 60S*/
+            document.getElementById('temp').innerText = `Tempo restante: ${tempoRestante}s`; /*PARA MOSTRARMOS O TEMPO*/
 
-        // Verifica se o tempo acabou
-        if (tempoRestante <= 0) {
-            clearInterval(cronometro);                          /*PARA O CRONOMETRO*/
-            bloqueioClick = true;                               /*BLOQUEIA PARA NOVOS CLIQUES*/
-            mensagemElement.innerText = 'Tempo esgotado!';      /*EXIBE A MENSAGEM TEMPO ESGOTADO */
-        }
-    }, 1000);  // Intervalo de 1 segundo
+            /*VERIFICA O TEMPO*/
+            if (tempoRestante <= 0) {                               /*TEMPO ESGOTADO*/
+                clearInterval(cronometro);                          /*PARA O CRONOMETRO*/
+                bloqueioClick = true;                               /*BLOQUEIA PARA NOVOS CLIQUES*/
+                mensagemElement.innerText = 'Tempo esgotado!';      /*EXIBE A MENSAGEM TEMPO ESGOTADO */
+            }
+        }, 1000);                                                   /*TIMER DE 1 SEGUNDO*/
+    }
+}
+
+function pausarTemporizador() {
+    clearInterval(cronometro);  /*PARA O CRONOMETRO*/
+    endgame = true;             /*SETA VARIAVEL PARA TRAVAR O CONTADOR*/
 }

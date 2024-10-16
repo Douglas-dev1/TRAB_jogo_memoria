@@ -98,7 +98,7 @@ buttonRadon.addEventListener("click", async (event) => {
     document.getElementById('mensagem1').innerText = `pontos: ${pontos}`;   /*EXIBE A PONTUAÇÃO*/
     embaralhaArray(doubleimageCards);                                       /*EMBARALHA OS ELEMENTOS DENTRO DO VETOR*/
     distribuiCards(true);                                                   /*GERA OS CARDS E MOSTRA NA TELA E MOSTRA PARA MEMORIZAÇÃO = TRUE*/
-    await delay(5000);                                                      /*AGUARDA 15S SÓ FUNCIONA DENTRO DE FUNÇOES ASSINCRONAS, CORRIGIR ADDEVENTLISTNER("click", async (event))*/
+    await delay(2500);                                                      /*AGUARDA 15S SÓ FUNCIONA DENTRO DE FUNÇOES ASSINCRONAS, CORRIGIR ADDEVENTLISTNER("click", async (event))*/
     distribuiCards(false);                                                  /*GERA OS CARDS E MOSTRA NA TELA E ESCONDE POR PADRAO DA REGRA DO CSS*/
     initTemporizador()                                                      /*INCIA O CONTADOR*/
 });

@@ -13,7 +13,10 @@ const container = document.getElementById("cards");                 /*ARAMZENA A
 /*DUPLAICANDO O ARRAY DE IMAGENS*/
 const doubleimageCards = imagesCards.concat(imagesCards);           /*CRIA UM NOVO ARRAY(doubleimageCards) QUE É A COMBINAÇÃO DO ARRAY ORIGINAL(imagesCards.concat) COM O ARRAY QUE É PASSADO COMO PARAMETRO((imagesCards))*/
 
-let varA = 0;
+let Carta1 = null;
+let Carta2 = null;
+let bloqCarta = null;
+let pontos = null;
 
 function delay(ms) {                                                /*FUNÇÃO DE DELAY*/
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -29,7 +32,7 @@ function distribuiCards(mostrarCartas = false) {
         for (let j = 0; j < 4; j++) {
             const card = document.createElement('div');                 /*CRIA UM BOTAO E ARAMZENA SUA REFERENCIA EM CONST PARA QUE POSSAMOS MANIPULAR COM JS*/
             card.className = 'cardStyle';                               /*CRIAMOS UM ID PARA ESSE ELEMENTO*/
-            card.id = `card${i}${j}`;                                   /*CRIAMOS UM ID UNICO PARA CADA BOTAO*/
+            card.id = `card${i}${j + 1}`;                                   /*CRIAMOS UM ID UNICO PARA CADA BOTAO*/
 
             /*CRIA O CORPO DO CARD*/
             const corpoCard = document.createElement('div');            /*CRIA A DIV*/
@@ -49,13 +52,16 @@ function distribuiCards(mostrarCartas = false) {
             card.appendChild(corpoCard);
 
             if (mostrarCartas) { /*QUANDO TRUE IRA PASSAR POR AQUI E MUDAR A IMAGEM DAS CARTAS*/
-                card.classList.toggle('card-flipped');
+                card.classList.add('card-flipped')
                 console.log('Passou aqui');
             }
-            
-            card.addEventListener('click', function () {    /*CRIAMOS O EVENTO CASO HAJA UM CLICK*/
-                card.classList.toggle('card-flipped');      /*ADCIONA OU REMOVE CARD-FLIPPED, SE O ELEMENTO JA TIVER A CLASSE ESSE COMANDO REMOVE E VICE E VERSA*/
-                console.log(`Card ${i}${j} clicado!`);      /*MOSTRA NO CONSOLE QUAL CARD FOI CLICADO*/
+
+            card.addEventListener('click', function () {                        /*CRIAMOS O EVENTO CASO HAJA UM CLICK*/
+                if (!bloqCarta && !card.classList.contains('card-flipped')) {   /*CONDIÇÃO PARA BLOQUEAR O CLIQUE EM UMA TERCEIRA CARTA, SE AS DUAS JA ESTIVEREM VIRADAS*/
+                    card.classList.add('card-flipped');                         /*ADCIONA OU REMOVE CARD-FLIPPED, SE O ELEMENTO JA TIVER A CLASSE ESSE COMANDO REMOVE E VICE E VERSA*/
+                    verificaCartas(card);
+                    console.log(`Card ${i}${j + 1} clicado!`);                     /*MOSTRA NO CONSOLE QUAL CARD FOI CLICADO*/
+                }
             });
 
             container.appendChild(card)                     /*JOGA DENTRO DA DIV O OBJETO CARD*/
@@ -74,6 +80,44 @@ buttonRadon.addEventListener("click", async (event) => {            /*EVENTO DE 
     event.preventDefault();
     embaralhaArray(doubleimageCards);                               /*EMBARALHA OS ELEMENTOS DENTRO DO VETOR*/
     distribuiCards(true);                                           /*GERA OS CARDS E MOSTRA NA TELA E MOSTRA PARA MEMORIZAÇÃO = TRUE*/
-    await delay(10000);                                             /*AGUARDA 15S SÓ FUNCIONA DENTRO DE FUNÇOES ASSINCRONAS, CORRIGIR ADDEVENTLISTNER("click", async (event))*/
+    await delay(5000);                                             /*AGUARDA 15S SÓ FUNCIONA DENTRO DE FUNÇOES ASSINCRONAS, CORRIGIR ADDEVENTLISTNER("click", async (event))*/
     distribuiCards(false);                                          /*GERA OS CARDS E MOSTRA NA TELA E ESCONDE POR PADRAO DA REGRA DO CSS*/
+    temporizador();
 });
+
+function verificaCartas(card) {
+    if (!Carta1) {
+        Carta1 = card;
+    }
+    else if (!Carta2) {
+        Carta2 = card;
+        bloqCarta = true;
+        setTimeout(() => { /*MOSTRA AS CARTAS DURANTE 1 SEGUNDO ANTES DE COMPARAR*/
+            comparaCartas()
+        }, 1000)
+    }
+}
+
+function comparaCartas() {
+    /*ACESSAMOS OS ENDEREÇOS DAS DUAS IMAGENS DAS CARTAS CLICADAS E SALVAMOS EM VARIAVEIS TEMPORARIAS PARA PODERMOS COMPARAR*/ 
+    const imagemCarta1 = Carta1.querySelector('.vCard').style.backgroundImage;
+    const imagemCarta2 = Carta2.querySelector('.vCard').style.backgroundImage;
+
+    if (imagemCarta1 === imagemCarta2) {
+        Carta1.innerHTML;
+        Carta2.innerHTML;
+        console.log('Cartas iguais!');
+    }
+    else {
+        Carta1.classList.remove('card-flipped');
+        Carta2.classList.remove('card-flipped');
+        console.log('Cartas Diferentes!');
+    }
+    Carta1 = null
+    Carta2 = null
+    bloqCarta = null
+}
+
+function temporizador(){
+
+}

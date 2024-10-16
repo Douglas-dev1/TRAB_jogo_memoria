@@ -13,10 +13,18 @@ const container = document.getElementById("cards");                 /*ARAMZENA A
 /*DUPLAICANDO O ARRAY DE IMAGENS*/
 const doubleimageCards = imagesCards.concat(imagesCards);           /*CRIA UM NOVO ARRAY(doubleimageCards) QUE É A COMBINAÇÃO DO ARRAY ORIGINAL(imagesCards.concat) COM O ARRAY QUE É PASSADO COMO PARAMETRO((imagesCards))*/
 
+let mensagemFinal1 = null;
+
 let Carta1 = null;
 let Carta2 = null;
 let bloqCarta = null;
+let contador = null
 let pontos = null;
+let endgame = null;
+let tempoRestante = 60;
+let cronometro = null;
+
+const mensagemElement = document.getElementById('mensagem');
 
 function delay(ms) {                                                /*FUNÇÃO DE DELAY*/
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -78,11 +86,14 @@ function embaralhaArray(array) {
 
 buttonRadon.addEventListener("click", async (event) => {            /*EVENTO DE CLIQUE NO BOTÃO EMBARALHAR*/
     event.preventDefault();
+    pontos = 0;
+    bloqCarta = false;
+    mensagemElement.innerText = 'Iniciado!';
     embaralhaArray(doubleimageCards);                               /*EMBARALHA OS ELEMENTOS DENTRO DO VETOR*/
     distribuiCards(true);                                           /*GERA OS CARDS E MOSTRA NA TELA E MOSTRA PARA MEMORIZAÇÃO = TRUE*/
     await delay(5000);                                             /*AGUARDA 15S SÓ FUNCIONA DENTRO DE FUNÇOES ASSINCRONAS, CORRIGIR ADDEVENTLISTNER("click", async (event))*/
     distribuiCards(false);                                          /*GERA OS CARDS E MOSTRA NA TELA E ESCONDE POR PADRAO DA REGRA DO CSS*/
-    temporizador();
+    initTemporizador()
 });
 
 function verificaCartas(card) {
@@ -107,6 +118,11 @@ function comparaCartas() {
         Carta1.innerHTML;
         Carta2.innerHTML;
         console.log('Cartas iguais!');
+        pontos++;
+        if(pontos == 8){
+            bloqueioClick = true;                               /*BLOQUEIA PARA NOVOS CLIQUES*/
+            mensagemElement.innerText = 'Ganhou!';
+        }
     }
     else {
         Carta1.classList.remove('card-flipped');
@@ -118,6 +134,16 @@ function comparaCartas() {
     bloqCarta = null
 }
 
-function temporizador(){
+function initTemporizador(){
+    cronometro = setInterval(() => {
+        tempoRestante--;                                    /*DECREMENTA DOS 60S*/
+        document.getElementById('temp').innerText = `Tempo restante: ${tempoRestante}s`; /*PARA MOSTRARMOS O TEMPO*/
 
+        // Verifica se o tempo acabou
+        if (tempoRestante <= 0) {
+            clearInterval(cronometro);                          /*PARA O CRONOMETRO*/
+            bloqueioClick = true;                               /*BLOQUEIA PARA NOVOS CLIQUES*/
+            mensagemElement.innerText = 'Tempo esgotado!';      /*EXIBE A MENSAGEM TEMPO ESGOTADO */
+        }
+    }, 1000);  // Intervalo de 1 segundo
 }

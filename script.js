@@ -14,6 +14,7 @@ const container = document.getElementById("cards");                 /*ARAMZENA A
 const doubleimageCards = imagesCards.concat(imagesCards);           /*CRIA UM NOVO ARRAY(doubleimageCards) QUE É A COMBINAÇÃO DO ARRAY ORIGINAL(imagesCards.concat) COM O ARRAY QUE É PASSADO COMO PARAMETRO((imagesCards))*/
 const mensagemElement = document.getElementById('mensagem');        /*ARAMZENA A REFERENCIA DO ELEMENTO DIV COM ID MENSAGEM PARA MANIPULAR A MESMA NO JS*/
 const mensagemElement1 = document.getElementById('mensagem2');      /*ARAMZENA A REFERENCIA DO ELEMENTO DIV COM ID MENSAGEM1 PARA MANIPULAR A MESMA NO JS*/
+const mensagemElement3 = document.getElementById('mensagem3');      /*ARAMZENA A REFERENCIA DO ELEMENTO DIV COM ID MENSAGEM1 PARA MANIPULAR A MESMA NO JS*/
 const buttonRadon = document.getElementById("randon")               /*ARAMZENA A REFERENCIA DO ELEMENTO BUTTON COM ID RANDON PARA MANIPULAR A MESMA NO JS*/
 /*==========================================================*/
 /*===================== VARIAVEIS(LET) =====================*/
@@ -24,7 +25,7 @@ let bloqCarta = null;
 let contador = null
 let pontos = null;
 let endgame = null;
-let tempoRestante = 90;
+let tempoRestante = 60;
 let cronometro = null;
 /*==========================================================*/
 function delay(ms) {                                                /*FUNÇÃO DE DELAY*/
@@ -92,8 +93,9 @@ buttonRadon.addEventListener("click", async (event) => {
     event.preventDefault();
     pontos = 0;                                                             /*ZERA OS PONTOS AO INICIAR O GAME*/
     endgame = false;                                                        /*LIBERA O CONTADOR PAR AUMA NOVA CONTAGEM*/
-    tempoRestante = 90;                                                     /*EM CASO DE UM NOVO JOGO RECARREGA O CONTADOR*/
+    tempoRestante = 60;                                                     /*EM CASO DE UM NOVO JOGO RECARREGA O CONTADOR*/
     bloqCarta = false;                                                      /*EM CASO DE UM NOVO JOGO DESBLOQUEIA AS AÇOES DAS CARTAS */
+    document.getElementById('mensagem3').style.display = 'none';            /*ESCONDE MENSAGEM REINICIA*/
     mensagemElement.innerText = 'Iniciado!';                                /*EXIBE A MENSAGEM QUE O JOGO FOI INCIADO*/
     document.getElementById('mensagem1').innerText = `pontos: ${pontos}`;   /*EXIBE A PONTUAÇÃO*/
     embaralhaArray(doubleimageCards);                                       /*EMBARALHA OS ELEMENTOS DENTRO DO VETOR*/
@@ -140,6 +142,8 @@ function comparaCartas() {
             document.getElementById('mensagem1').style.display = 'none';            /*ESCONDE O CONTADOR DE PONTUAÇÃO*/
             mensagemElement.innerText = 'Ganhou!';                                  /*MOSTRA A MENSAGEM NA TELA*/
             document.getElementById('mensagem').style.fontSize = '50px'             /*AUMENTO O TAMANHO DA FONTE QUANDO APARECE GANHOU*/
+            mensagemElement3.innerText = 'Pressione embaralhar para reiniciar!!';   /*EXIBE A MENSAGEM REINICIAR */
+            document.getElementById('mensagem3').style.display = 'block';           /*PARA TORNAR A MENSAGEM 3 VISIVEL, VISTO QUE FOI USADO O MEMSO COMANDO COM 'NONE' ACIMA*/
             console.log(endgame)                                                    /*PARA DEBUG, IMPRIME NO CONSOLE*/
         }
     }
@@ -163,8 +167,11 @@ function initTemporizador() {
             if (tempoRestante <= 0) {                               /*TEMPO ESGOTADO*/
                 clearInterval(cronometro);                          /*PARA O CRONOMETRO*/
                 bloqueioClick = true;                               /*BLOQUEIA PARA NOVOS CLIQUES*/
-                mensagemElement.innerText = 'Tempo esgotado!';      /*EXIBE A MENSAGEM TEMPO ESGOTADO */
+                document.getElementById('mensagem1').style.display = 'none';            /*ESCONDE O CONTADOR DE PONTUAÇÃO*/
+                mensagemElement.innerText = 'Tempo esgotado!';                          /*EXIBE A MENSAGEM TEMPO ESGOTADO */
                 document.getElementById('mensagem').style.fontSize = '50px'             /*AUMENTO O TAMANHO DA FONTE QUANDO APARECE TEMPO ESGOTADO*/
+                mensagemElement3.innerText = 'Pressione embaralhar para reiniciar!!';    /*EXIBE A MENSAGEM REINICIAR*/
+                document.getElementById('mensagem3').style.display = 'block';           /*PARA TORNAR A MENSAGEM 3 VISIVEL, VISTO QUE FOI USADO O MEMSO COMANDO COM 'NONE' ACIMA*/
             }
         }, 1000);                                                   /*TIMER DE 1 SEGUNDO*/
     }

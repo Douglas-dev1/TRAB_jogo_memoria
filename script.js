@@ -25,7 +25,7 @@ let bloqCarta = null;
 let contador = null
 let pontos = null;
 let endgame = null;
-let tempoRestante = 60;
+let tempoRestante = 45;
 let cronometro = null;
 /*==========================================================*/
 function delay(ms) {                                                /*FUNÇÃO DE DELAY*/
@@ -93,7 +93,7 @@ buttonRadon.addEventListener("click", async (event) => {
     event.preventDefault();
     pontos = 0;                                                             /*ZERA OS PONTOS AO INICIAR O GAME*/
     endgame = false;                                                        /*LIBERA O CONTADOR PAR AUMA NOVA CONTAGEM*/
-    tempoRestante = 60;                                                     /*EM CASO DE UM NOVO JOGO RECARREGA O CONTADOR*/
+    tempoRestante = 45;                                                     /*EM CASO DE UM NOVO JOGO RECARREGA O CONTADOR*/
     bloqCarta = false;                                                      /*EM CASO DE UM NOVO JOGO DESBLOQUEIA AS AÇOES DAS CARTAS */
     document.getElementById('mensagem3').style.display = 'none';            /*ESCONDE MENSAGEM REINICIA*/
     mensagemElement.innerText = 'Iniciado!';                                /*EXIBE A MENSAGEM QUE O JOGO FOI INCIADO*/
